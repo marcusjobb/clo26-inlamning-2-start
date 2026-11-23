@@ -1,0 +1,39 @@
+.hotel-nav {
+    --bs-navbar-color: #264639;
+    --bs-navbar-hover-color: #173229;
+    --bs-navbar-brand-color: #173229;
+    --bs-navbar-brand-hover-color: #264639;
+    background: #faf7ef;
+    border-bottom: 1px solid #e6ded0;
+    padding-block: 0.9rem;
+}
+
+.hotel-nav .navbar-brand {
+    font-family: Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.hotel-nav .nav-link {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.hotel-nav .dropdown-menu {
+    --bs-dropdown-bg: #fffdf7;
+    --bs-dropdown-border-color: #e6ded0;
+    --bs-dropdown-link-hover-bg: #edf1eb;
+    box-shadow: 0 6px 18px rgba(23, 50, 41, 0.12);
+}
+
+.hotel-book {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #264639;
+    --bs-btn-border-color: #264639;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #173229;
+    --bs-btn-hover-border-color: #173229;
+    border-radius: 50rem;
+    padding-inline: 1rem;
+    white-space: nowrap;
+}
