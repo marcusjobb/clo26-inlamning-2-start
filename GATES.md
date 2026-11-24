@@ -10,6 +10,7 @@ Gå igenom listan innan ni laddar ner zippen. Alla punkter ska vara ✅.
 - [ ] `GRUPP.md` är ifylld: gruppnamn, medlemmar, projekt, databas, kanban-länk och gruppregler.
 - [ ] `README.md` är ifylld. Inga `[...]`-platshållare kvar.
 - [ ] `GRANSKNINGSNOTIS.md` är ifylld. Inga `[...]`-platshållare kvar.
+- [ ] Inga rester från Visual Studios mallar: inga `Counter`- eller `Weather`-sidor, och ingen "Welcome"- eller "Privacy"-text som inte hör till ert projekt.
 - [ ] `bin/`, `obj/` och `.vs/` finns **inte** i repot. De står i `.gitignore`.
 - [ ] Inga hemligheter: ingen connectionstring eller lösenord i koden, i README eller i commit-historiken.
 - [ ] Minst tre commits. Varje commit har er egen `user.name` och `user.email`.
@@ -32,6 +33,7 @@ Gå igenom listan innan ni laddar ner zippen. Alla punkter ska vara ✅.
 ## Kodkvalitet (G)
 
 - [ ] Klasser med tydliga ansvar (SRP). Gränssnitt, databas och affärslogik är åtskilda (SoC).
+- [ ] Repository, designmönster och interface som ni pekar ut finns i er egen kod. Startkoden (gränssnittet, `InMemory…Repository` och de interface som fanns från början) räknas inte.
 - [ ] Samma regel finns på ett enda ställe (DRY).
 - [ ] Namn säger vad saker är. Inga kommentarer som bara upprepar koden.
 - [ ] Namn på klasser, metoder, variabler och tabeller är på engelska. Utskrifter och kommentarer är på svenska.
