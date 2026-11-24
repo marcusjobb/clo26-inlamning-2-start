@@ -12,9 +12,10 @@ public class Match
     public ObjectId AwayTeamId { get; set; }
     public int HomeGoals { get; set; }
     public int AwayGoals { get; set; }
+    public DateTime Date { get; set; }
+    public string? Note { get; set; }
 
     // Du behöver bygga ut detta mer.
-    // Beställningen kräver datum och en valfri anteckning. Datumet avgör vilken säsong matchen hör till (önskemål 2).
     // Fundera på om ni vill spara lagens namn här, eller slå upp dem via HomeTeamId och AwayTeamId.
     // När ni lägger till fälten: uppdatera även formuläret i Components/Pages/Matches/MatchCreate.razor så att användaren kan fylla i dem.
 }
