@@ -7,6 +7,7 @@ namespace Sportstatistik.Models;
 /// </summary>
 public class SquadLimit
 {
+    public ObjectId Id { get; set; }
     public ObjectId TeamId { get; set; }
     public int Season { get; set; }
     public int MaxPlayers { get; set; }
