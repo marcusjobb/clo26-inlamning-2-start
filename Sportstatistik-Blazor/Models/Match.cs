@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+
 namespace Sportstatistik.Models;
 
 /// <summary>
@@ -5,9 +7,9 @@ namespace Sportstatistik.Models;
 /// </summary>
 public class Match
 {
-    public int Id { get; set; }
-    public int HomeTeamId { get; set; }
-    public int AwayTeamId { get; set; }
+    public ObjectId Id { get; set; }
+    public ObjectId HomeTeamId { get; set; }
+    public ObjectId AwayTeamId { get; set; }
     public int HomeGoals { get; set; }
     public int AwayGoals { get; set; }
 

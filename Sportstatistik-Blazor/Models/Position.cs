@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+
 namespace Sportstatistik.Models;
 
 /// <summary>
@@ -5,7 +7,7 @@ namespace Sportstatistik.Models;
 /// </summary>
 public class Position
 {
-    public int Id { get; set; }
+    public ObjectId Id { get; set; }
     public string Name { get; set; } = "";
 
     // Du behöver bygga ut detta mer.
