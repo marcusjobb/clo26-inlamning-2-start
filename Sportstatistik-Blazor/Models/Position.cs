@@ -10,7 +10,7 @@ public class Position
     public ObjectId Id { get; set; }
     public string Name { get; set; } = "";
     public bool IsProtected { get; set; }
-}
 
-// Du behöver bygga ut detta mer.
-    // Beställningen kräver att användaren kan lägga till egna positioner,
+    // Du behöver bygga ut detta mer.
+    // Beställningen kräver att användaren kan lägga till egna positioner.
+}
