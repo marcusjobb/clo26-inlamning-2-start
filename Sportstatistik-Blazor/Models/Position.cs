@@ -9,8 +9,8 @@ public class Position
 {
     public ObjectId Id { get; set; }
     public string Name { get; set; } = "";
-
-    // Du behöver bygga ut detta mer.
-    // Beställningen kräver att användaren kan lägga till egna positioner,
-    // och att "Övrigt" aldrig kan tas bort (önskemål 3).
+    public bool IsProtected { get; set; }
 }
+
+// Du behöver bygga ut detta mer.
+    // Beställningen kräver att användaren kan lägga till egna positioner,
