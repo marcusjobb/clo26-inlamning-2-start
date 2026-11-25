@@ -1,0 +1,25 @@
+using MongoDB.Driver;
+using Sportstatistik.Models;
+
+namespace Sportstatistik.Data;
+
+
+public sealed class SportDatabase
+{
+    private readonly IMongoDatabase _database;
+
+    public SportDatabase(string connectionString)
+    {
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException(
+                "MongoDB-anslutningen saknas. Ladda .env innan du startar appen.");
+        }
+
+        var client = new MongoClient(connectionString);
+        _database = client.GetDatabase("sportstatistik");
+    }
+
+    public IMongoCollection<Team> Teams =>
+        _database.GetCollection<Team>("teams");
+}
