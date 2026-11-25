@@ -15,9 +15,8 @@ public class Player
     public string FirstName { get; set; } = "";
     public string LastName { get; set; } = "";
     public DateOnly BirthDate { get; set; }
-    public string HairColor { get; set; } = "";
+    public int WeightKg { get; set; }
     public int HeightCm { get; set; }
-    public string Religion { get; set; } = "";
 
     // Du behöver bygga ut detta mer.
     // Fundera på om ni vill spara positionens namn här, eller ett PositionId.
