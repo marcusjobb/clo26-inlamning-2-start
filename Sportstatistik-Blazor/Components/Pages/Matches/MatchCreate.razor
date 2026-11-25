@@ -1,4 +1,6 @@
+
 @page "/matches/create"
+@using MongoDB.Bson
 @inherits PageBase
 @inject ILeagueRepository Repository
 @inject NavigationManager Navigation
@@ -59,8 +61,8 @@
 
 @code {
     private List<Team> teams = new();
-    private int homeTeamId;
-    private int awayTeamId;
+    private string homeTeamId = "";
+    private string awayTeamId = "";
     private string homeGoalsText = "";
     private string awayGoalsText = "";
     private List<string> validationErrors = new();
@@ -68,19 +70,24 @@
     protected override void OnInitialized()
     {
         teams = TryGet(Repository.GetAllTeams, new List<Team>());
-        homeTeamId = teams.ElementAtOrDefault(0)?.Id ?? 0;
-        awayTeamId = teams.ElementAtOrDefault(1)?.Id ?? homeTeamId;
+        homeTeamId = teams.ElementAtOrDefault(0)?.Id.ToString() ?? "";
+        awayTeamId = teams.ElementAtOrDefault(1)?.Id.ToString() ?? homeTeamId;
     }
 
     private void Save()
     {
         validationErrors.Clear();
-        var match = new Match { HomeTeamId = homeTeamId, AwayTeamId = awayTeamId };
-
-        if (Repository.GetTeam(homeTeamId) is null || Repository.GetTeam(awayTeamId) is null)
+            if (!ObjectId.TryParse(homeTeamId, out var homeId) ||
+            !ObjectId.TryParse(awayTeamId, out var awayId) ||
+            Repository.GetTeam(homeId) is null ||
+            Repository.GetTeam(awayId) is null)
         {
             validationErrors.Add("Välj både hemmalag och bortalag.");
+            return;
         }
+
+        var match = new Match { HomeTeamId = homeId, AwayTeamId = awayId };
+     
         if (InputParser.TryParseInt(homeGoalsText, 0, 99, out int homeGoals))
         {
             match.HomeGoals = homeGoals;

@@ -58,7 +58,8 @@ else
 
     private void LoadMatches() => matches = TryGet(Repository.GetAllMatches, new List<Match>());
 
-    private string TeamName(int teamId) => Repository.GetTeam(teamId)?.Name ?? "(okänt lag)";
+    private string TeamName(ObjectId teamId) =>
+    Repository.GetTeam(teamId)?.Name ?? "(okänt lag)";
 
     private void ConfirmDelete()
     {

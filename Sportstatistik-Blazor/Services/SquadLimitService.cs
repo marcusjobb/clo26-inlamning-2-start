@@ -1,27 +1,42 @@
+using MongoDB.Bson;
 using Sportstatistik.Models;
 
 namespace Sportstatistik.Services;
 
-/// <summary>
-/// Ska byggas av er. GetLimits visar demodata så att sidan går att titta på.
-/// Övriga metoder kastar NotImplementedException, och sidan visar då "Inte implementerat ännu".
-/// </summary>
-public class SquadLimitService : ISquadLimitService
+public class SquadLimitService(ILeagueRepository repository) : ISquadLimitService
 {
-    // DEMO: samma påhittade gränser för varje säsong. Ersätt med gränserna från databasen.
-    public List<SquadLimit> GetLimits(int season) =>
-    [
-        new SquadLimit { TeamId = 1, Season = season, MaxPlayers = 20 },
-        new SquadLimit { TeamId = 2, Season = season, MaxPlayers = 18 },
-        new SquadLimit { TeamId = 3, Season = season, MaxPlayers = 18 },
-        new SquadLimit { TeamId = 4, Season = season, MaxPlayers = 5 },
-    ];
+    // Demogränser tills de hämtas från databasen.
+    private static readonly Dictionary<string, int> DemoLimits = new()
+    {
+        ["Ummis IF"] = 20,
+        ["Bryggeriet BK"] = 18,
+        ["Kontoret FF"] = 18,
+        ["Lagret United"] = 5
+    };
 
-    // En gräns under 1 ska ge ett tydligt felmeddelande. Kasta ArgumentException, så visar sidan texten.
-    public void SetLimit(int teamId, int season, int maxPlayers) => throw new NotImplementedException();
+    public List<SquadLimit> GetLimits(int season)
+    {
+        var limits = new List<SquadLimit>();
 
-    // Du behöver bygga ut detta mer: returnera en varning när laget når 80 % av gränsen, och en annan
-    // vid 100 %. Samma 80 %-varning får inte visas igen förrän säsongen byts (önskemål 4).
-    // Här passar till exempel mönstret Observer.
-    public List<string> CheckSquadLimit(int teamId, int season) => throw new NotImplementedException();
+        foreach (var team in repository.GetAllTeams())
+        {
+            if (DemoLimits.TryGetValue(team.Name, out var maxPlayers))
+            {
+                limits.Add(new SquadLimit
+                {
+                    TeamId = team.Id,
+                    Season = season,
+                    MaxPlayers = maxPlayers
+                });
+            }
+        }
+
+        return limits;
+    }
+
+    public void SetLimit(ObjectId teamId, int season, int maxPlayers) =>
+        throw new NotImplementedException();
+
+    public List<string> CheckSquadLimit(ObjectId teamId, int season) =>
+        throw new NotImplementedException();
 }

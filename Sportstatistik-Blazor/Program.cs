@@ -3,7 +3,7 @@ using System.Globalization;
 using Sportstatistik.Components;
 using Sportstatistik.Services;
 using Sportstatistik.Data;
-
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Sportstatistik.Models;
 
@@ -17,11 +17,13 @@ var builder = WebApplication.CreateBuilder(args);
 // I Development läser WebApplication user-secrets automatiskt.
 builder.Configuration.AddIniFile("atlas-credentials.env", optional: true);
 
-var connectionString = builder.Configuration["MONGODB_URI"]
-    ?? throw new InvalidOperationException(
-        "MONGODB_URI saknas i atlas-credentials.env.");
-
-builder.Services.AddSingleton(new SportDatabase(connectionString));
+builder.Services.AddSingleton<SportDatabase>(services =>
+{
+    var configuration = services.GetRequiredService<IConfiguration>();
+    var connectionString = configuration["MONGODB_URI"]
+        ?? throw new InvalidOperationException("MONGODB_URI saknas i konfigurationen.");
+    return new SportDatabase(connectionString);
+});
 
 // Byt den här raden när ni har en riktig databas, till exempel:
 //   builder.Services.AddSingleton<ILeagueRepository>(new MongoLeagueRepository(connectionString));
@@ -46,7 +48,7 @@ var app = builder.Build();
 if (Environment.GetEnvironmentVariable("TEST_ATLAS") == "1")
 {
     var db = app.Services.GetRequiredService<SportDatabase>();
-    const int testId = -999;
+    var testId = ObjectId.Parse("000000000000000000000999");
 
     var filter = Builders<Team>.Filter.Eq(team => team.Id, testId);
     var testTeam = new Team { Id = testId, Name = "Atlas testlag" };

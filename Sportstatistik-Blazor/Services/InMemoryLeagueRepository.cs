@@ -1,4 +1,5 @@
 using Sportstatistik.Models;
+using MongoDB.Bson;
 
 namespace Sportstatistik.Services;
 
@@ -13,9 +14,7 @@ public class InMemoryLeagueRepository : ILeagueRepository
     private readonly List<Team> _teams = new();
     private readonly List<Player> _players = new();
     private readonly List<Match> _matches = new();
-    private int _nextTeamId = 1;
-    private int _nextPlayerId = 1;
-    private int _nextMatchId = 1;
+  
 
     public InMemoryLeagueRepository()
     {
@@ -24,36 +23,52 @@ public class InMemoryLeagueRepository : ILeagueRepository
 
     public List<Team> GetAllTeams() => _teams.ToList();
 
-    public Team? GetTeam(int id) => _teams.FirstOrDefault(t => t.Id == id);
+    public Team? GetTeam(ObjectId id) =>
+    _teams.FirstOrDefault(team => team.Id == id);
 
     public void AddTeam(Team team)
     {
         // Du behöver bygga ut detta mer: fundera på om två lag får heta samma sak.
-        team.Id = _nextTeamId++;
+        if (team.Id == ObjectId.Empty)
+        {
+            team.Id = ObjectId.GenerateNewId();
+        }
         _teams.Add(team);
     }
 
-    public List<Player> GetPlayers(int teamId) => _players.Where(p => p.TeamId == teamId).ToList();
+    
+    public List<Player> GetPlayers(ObjectId teamId) =>
+    _players.Where(player => player.TeamId == teamId).ToList();
 
     public void AddPlayer(Player player)
     {
-        player.Id = _nextPlayerId++;
+        if (player.Id == ObjectId.Empty)
+        {
+            player.Id = ObjectId.GenerateNewId();
+        }
+        
         _players.Add(player);
     }
 
     public List<Match> GetAllMatches() => _matches.ToList();
 
-    public Match? GetMatch(int id) => _matches.FirstOrDefault(m => m.Id == id);
+    public Match? GetMatch(ObjectId id) =>
+    _matches.FirstOrDefault(match => match.Id == id);
 
     public void AddMatch(Match match)
     {
         // Du behöver bygga ut detta mer: ett lag får inte möta sig självt (story 6).
         // Kasta ArgumentException med ett meddelande på svenska, så visar sidan texten.
-        match.Id = _nextMatchId++;
+        if (match.Id == ObjectId.Empty)
+        {
+            match.Id = ObjectId.GenerateNewId();
+        }
+        
         _matches.Add(match);
     }
 
-    public void DeleteMatch(int id) => _matches.RemoveAll(m => m.Id == id);
+    public void DeleteMatch(ObjectId id) =>
+    _matches.RemoveAll(match => match.Id == id);
 
     // Exempeldata, så att det finns något att titta på direkt.
     // Er riktiga databas ska seeda sig själv på samma sätt vid första start, om den är tom.
@@ -61,30 +76,34 @@ public class InMemoryLeagueRepository : ILeagueRepository
     // byggs steg för steg, till exempel .Home(ummis).Away(lagret).Score(2, 1).
     private void Seed()
     {
-        AddTeam(new Team { Name = "Ummis IF" });
-        AddTeam(new Team { Name = "Bryggeriet BK" });
-        AddTeam(new Team { Name = "Kontoret FF" });
-        AddTeam(new Team { Name = "Lagret United" });
+        var ummis = new Team { Name = "Ummis IF" };
+        var bryggeriet = new Team { Name = "Bryggeriet BK" };
+        var kontoret = new Team { Name = "Kontoret FF" };
+        var lagret = new Team { Name = "Lagret United" };
 
-        AddPlayer(new Player { TeamId = 1, FirstName = "Alex", LastName = "Exempelsson", Position = "Målvakt" });
-        AddPlayer(new Player { TeamId = 1, FirstName = "Robin", LastName = "Påhittad", Position = "Back" });
-        AddPlayer(new Player { TeamId = 1, FirstName = "Kim", LastName = "Testsson", Position = "Mittfält" });
-        AddPlayer(new Player { TeamId = 1, FirstName = "Sam", LastName = "Demosson", Position = "Forward" });
-        AddPlayer(new Player { TeamId = 2, FirstName = "Charlie", LastName = "Exempelsson", Position = "Målvakt" });
-        AddPlayer(new Player { TeamId = 2, FirstName = "Noa", LastName = "Påhittad", Position = "Forward" });
-        AddPlayer(new Player { TeamId = 3, FirstName = "Love", LastName = "Testsson", Position = "Back" });
-        AddPlayer(new Player { TeamId = 3, FirstName = "Mika", LastName = "Demosson", Position = "Övrigt" });
-        AddPlayer(new Player { TeamId = 4, FirstName = "Ellis", LastName = "Exempelsson", Position = "Mittfält" });
-        AddPlayer(new Player { TeamId = 4, FirstName = "Juno", LastName = "Påhittad", Position = "Back" });
-        AddPlayer(new Player { TeamId = 4, FirstName = "Tove", LastName = "Testsson", Position = "Forward" });
-        AddPlayer(new Player { TeamId = 4, FirstName = "Vide", LastName = "Demosson", Position = "Målvakt" });
+        AddTeam(ummis);
+        AddTeam(bryggeriet);
+        AddTeam(kontoret);
+        AddTeam(lagret);
 
-        // Samma sex matcher som demotabellen i StandingsService visar.
-        AddMatch(new Match { HomeTeamId = 1, AwayTeamId = 2, HomeGoals = 2, AwayGoals = 1 });
-        AddMatch(new Match { HomeTeamId = 3, AwayTeamId = 4, HomeGoals = 0, AwayGoals = 0 });
-        AddMatch(new Match { HomeTeamId = 2, AwayTeamId = 3, HomeGoals = 3, AwayGoals = 1 });
-        AddMatch(new Match { HomeTeamId = 4, AwayTeamId = 1, HomeGoals = 1, AwayGoals = 2 });
-        AddMatch(new Match { HomeTeamId = 1, AwayTeamId = 3, HomeGoals = 1, AwayGoals = 1 });
-        AddMatch(new Match { HomeTeamId = 4, AwayTeamId = 2, HomeGoals = 2, AwayGoals = 2 });
+        AddPlayer(new Player { TeamId = ummis.Id, FirstName = "Alex", LastName = "Exempelsson", Position = "Målvakt" });
+        AddPlayer(new Player { TeamId = ummis.Id, FirstName = "Robin", LastName = "Påhittad", Position = "Back" });
+        AddPlayer(new Player { TeamId = ummis.Id, FirstName = "Kim", LastName = "Testsson", Position = "Mittfält" });
+        AddPlayer(new Player { TeamId = ummis.Id, FirstName = "Sam", LastName = "Demosson", Position = "Forward" });
+        AddPlayer(new Player { TeamId = bryggeriet.Id, FirstName = "Charlie", LastName = "Exempelsson", Position = "Målvakt" });
+        AddPlayer(new Player { TeamId = bryggeriet.Id, FirstName = "Noa", LastName = "Påhittad", Position = "Forward" });
+        AddPlayer(new Player { TeamId = kontoret.Id, FirstName = "Love", LastName = "Testsson", Position = "Back" });
+        AddPlayer(new Player { TeamId = kontoret.Id, FirstName = "Mika", LastName = "Demosson", Position = "Övrigt" });
+        AddPlayer(new Player { TeamId = lagret.Id, FirstName = "Ellis", LastName = "Exempelsson", Position = "Mittfält" });
+        AddPlayer(new Player { TeamId = lagret.Id, FirstName = "Juno", LastName = "Påhittad", Position = "Back" });
+        AddPlayer(new Player { TeamId = lagret.Id, FirstName = "Tove", LastName = "Testsson", Position = "Forward" });
+        AddPlayer(new Player { TeamId = lagret.Id, FirstName = "Vide", LastName = "Demosson", Position = "Målvakt" });
+
+        AddMatch(new Match { HomeTeamId = ummis.Id, AwayTeamId = bryggeriet.Id, HomeGoals = 2, AwayGoals = 1 });
+        AddMatch(new Match { HomeTeamId = kontoret.Id, AwayTeamId = lagret.Id, HomeGoals = 0, AwayGoals = 0 });
+        AddMatch(new Match { HomeTeamId = bryggeriet.Id, AwayTeamId = kontoret.Id, HomeGoals = 3, AwayGoals = 1 });
+        AddMatch(new Match { HomeTeamId = lagret.Id, AwayTeamId = ummis.Id, HomeGoals = 1, AwayGoals = 2 });
+        AddMatch(new Match { HomeTeamId = ummis.Id, AwayTeamId = kontoret.Id, HomeGoals = 1, AwayGoals = 1 });
+        AddMatch(new Match { HomeTeamId = lagret.Id, AwayTeamId = bryggeriet.Id, HomeGoals = 2, AwayGoals = 2 });
     }
 }
