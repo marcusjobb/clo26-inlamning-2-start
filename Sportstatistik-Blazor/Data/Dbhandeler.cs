@@ -22,4 +22,10 @@ public sealed class SportDatabase
 
     public IMongoCollection<Team> Teams =>
         _database.GetCollection<Team>("teams");
+
+    public IMongoCollection<Player> Players =>
+    _database.GetCollection<Player>("players");
+
+    public IMongoCollection<Match> Matches =>
+        _database.GetCollection<Match>("matches");
 }
