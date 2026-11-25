@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+
 namespace Sportstatistik.Models;
 
 /// <summary>
@@ -7,15 +9,14 @@ namespace Sportstatistik.Models;
 /// </summary>
 public class Player
 {
-    public int Id { get; set; }
-    public int TeamId { get; set; }
+    public ObjectId Id { get; set; }
+    public ObjectId TeamId { get; set; }
     public string Position { get; set; } = "";
     public string FirstName { get; set; } = "";
     public string LastName { get; set; } = "";
     public DateOnly BirthDate { get; set; }
-    public string HairColor { get; set; } = "";
+    public int WeightKg { get; set; }
     public int HeightCm { get; set; }
-    public string Religion { get; set; } = "";
 
     // Du behöver bygga ut detta mer.
     // Fundera på om ni vill spara positionens namn här, eller ett PositionId.

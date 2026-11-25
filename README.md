@@ -152,7 +152,14 @@ Gå igenom varje fält i datamodellen. Behåll de fält programmet behöver och 
 
 | Entitet | Fält | Behålls / tas bort | Motivering |
 |---------|------|--------------------|------------|
-| | | | |
+| Match| Id| Behålls| Unik nyckel i MongoDB (_id)|
+| Match  | HomeTeamId  | Behålls       | Kopplar matchen till hemmalaget.|
+| Match | AwayTeamId | Behålls       | Kopplar matchen till bortalaget.                 |
+| Match | HomeGoals  | Behålls       | Krävs för resultat och tabell.                                |
+| Match  | AwayGoals  | Behålls       | Krävs för resultat och tabell.                              |
+| Match| Date      | Behålls              | Krav i beställningen. Avgör vilken säsong matchen hör till (önskemål 2). |
+| Match    | Note| Behålls        | Valfri anteckning, krav i beställningen|
+
 
 ## Designmönster
 

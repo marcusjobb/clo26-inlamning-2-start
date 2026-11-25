@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+
 namespace Sportstatistik.Models;
 
 /// <summary>
@@ -5,7 +7,8 @@ namespace Sportstatistik.Models;
 /// </summary>
 public class SquadLimit
 {
-    public int TeamId { get; set; }
+    public ObjectId Id { get; set; }
+    public ObjectId TeamId { get; set; }
     public int Season { get; set; }
     public int MaxPlayers { get; set; }
 }

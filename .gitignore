@@ -3,6 +3,7 @@ bin/
 obj/
 *.user
 .vs/
+.idea/
 
 # Hemligheter: connectionstrings och lösenord ska INTE in i koden
 .env
