@@ -2,6 +2,10 @@
 using System.Globalization;
 using Sportstatistik.Components;
 using Sportstatistik.Services;
+using Sportstatistik.Data;
+
+using MongoDB.Driver;
+using Sportstatistik.Models;
 
 // Svenskt format på tal och datum.
 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("sv-SE");
@@ -11,7 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Connectionstring läses från user-secrets (nyckeln DB_CONNECTION), aldrig från koden.
 // I Development läser WebApplication user-secrets automatiskt.
-string? connectionString = builder.Configuration["DB_CONNECTION"];
+builder.Configuration.AddIniFile("atlas-credentials.env", optional: true);
+
+var connectionString = builder.Configuration["MONGODB_URI"]
+    ?? throw new InvalidOperationException(
+        "MONGODB_URI saknas i atlas-credentials.env.");
+
+builder.Services.AddSingleton(new SportDatabase(connectionString));
 
 // Byt den här raden när ni har en riktig databas, till exempel:
 //   builder.Services.AddSingleton<ILeagueRepository>(new MongoLeagueRepository(connectionString));
@@ -30,7 +40,26 @@ builder.Services.AddSingleton<IResultFormatter, ResultFormatter>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+
 var app = builder.Build();
+
+if (Environment.GetEnvironmentVariable("TEST_ATLAS") == "1")
+{
+    var db = app.Services.GetRequiredService<SportDatabase>();
+    const int testId = -999;
+
+    var filter = Builders<Team>.Filter.Eq(team => team.Id, testId);
+    var testTeam = new Team { Id = testId, Name = "Atlas testlag" };
+
+    await db.Teams.ReplaceOneAsync(
+        filter,
+        testTeam,
+        new ReplaceOptions { IsUpsert = true });
+
+    var savedTeam = await db.Teams.Find(filter).SingleAsync();
+    Console.WriteLine($"Atlas-test OK. Läste tillbaka {savedTeam.Name} (ID {savedTeam.Id}).");
+}
+
 
 if (!app.Environment.IsDevelopment())
 {
@@ -47,3 +76,5 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+

@@ -16,3 +16,5 @@ Thumbs.db
 *.db
 *.sqlite
 *.sqlite3
+
+atlas-credentials.env
