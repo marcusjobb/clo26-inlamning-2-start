@@ -11,7 +11,7 @@ public class ResultFormatter : IResultFormatter
     // Bygger ny med tankstreck istället för bindestreck. -max 
     public string FormatResult(int homeGoals, int awayGoals)
     {
-       return $"{homeGoals} – {awayGoals}";  
+       return $"{homeGoals}–{awayGoals}";  
     } 
 
     // Den här skriver "3" i stället för "+3".
