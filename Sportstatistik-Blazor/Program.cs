@@ -31,7 +31,7 @@ builder.Services.AddSingleton<SportDatabase>(services =>
 // Här passar till exempel mönstret Factory: en klass som väljer och skapar rätt repository
 // utifrån konfigurationen, så att Program.cs inte behöver känna till varje databasklass.
 // Låtsasdatabasen är Singleton så att listorna lever kvar mellan sidvisningarna.
-builder.Services.AddSingleton<ILeagueRepository, InMemoryLeagueRepository>();
+builder.Services.AddSingleton<ILeagueRepository, MongoLeagueRepository>();
 
 // De här ska ni bygga. Tills dess visar sidorna demodata eller "Inte implementerat ännu".
 builder.Services.AddSingleton<IStandingsService, StandingsService>();
@@ -45,21 +45,26 @@ builder.Services.AddRazorComponents()
 
 var app = builder.Build();
 
-if (Environment.GetEnvironmentVariable("TEST_ATLAS") == "1")
+if (Environment.GetEnvironmentVariable("SEED_DEMO_DATA") == "1")
 {
-    var db = app.Services.GetRequiredService<SportDatabase>();
-    var testId = ObjectId.Parse("000000000000000000000999");
+    var database = app.Services.GetRequiredService<SportDatabase>();
+    var destination = new MongoLeagueRepository(database);
 
-    var filter = Builders<Team>.Filter.Eq(team => team.Id, testId);
-    var testTeam = new Team { Id = testId, Name = "Atlas testlag" };
+    if (destination.GetAllTeams().Count == 0)
+    {
+        var demo = new InMemoryLeagueRepository();
 
-    await db.Teams.ReplaceOneAsync(
-        filter,
-        testTeam,
-        new ReplaceOptions { IsUpsert = true });
+        foreach (var team in demo.GetAllTeams())
+        {
+            destination.AddTeam(team);
 
-    var savedTeam = await db.Teams.Find(filter).SingleAsync();
-    Console.WriteLine($"Atlas-test OK. Läste tillbaka {savedTeam.Name} (ID {savedTeam.Id}).");
+            foreach (var player in demo.GetPlayers(team.Id))
+                destination.AddPlayer(player);
+        }
+
+        foreach (var match in demo.GetAllMatches())
+            destination.AddMatch(match);
+    }
 }
 
 

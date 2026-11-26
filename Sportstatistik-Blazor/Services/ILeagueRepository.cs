@@ -8,9 +8,9 @@ namespace Sportstatistik.Services;
 /// </summary>
 public interface ILeagueRepository
 {
-    List<Team> GetAllTeams();
-    Team? GetTeam(ObjectId id);
-    void AddTeam(Team team);
+List<Team> GetAllTeams();
+Team? GetTeam(ObjectId id);
+void AddTeam(Team team);
 
     List<Player> GetPlayers(ObjectId teamId);
     void AddPlayer(Player player);
