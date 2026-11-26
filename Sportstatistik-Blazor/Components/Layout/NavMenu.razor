@@ -1,42 +1,38 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Sportstatistik</a>
+﻿<nav class="navbar navbar-expand hotel-nav" aria-label="Huvudmeny">
+    <div class="container flex-wrap gap-2">
+        <a class="navbar-brand" href="/">CLO-26</a>
+
+        <ul class="navbar-nav flex-row align-items-center gap-3 ms-auto">
+            <li class="nav-item">
+                <a class="nav-link px-0" href="/">Hem</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle px-0" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Statistik
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/rum"></a></li>
+                    <li><a class="dropdown-item" href="/rum/sviter">Matcher</a></li>
+                    <li><a class="dropdown-item" href="/rum/sviter">Tabell</a></li>
+                </ul>
+            </li>
+                        <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle px-0" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Lag & spelare
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/rum/sviter">Lag & spelare</a></li>
+                    <li><a class="dropdown-item" href="/rum/sviter">Positioner</a></li>
+                    <li><a class="dropdown-item" href="/rum/sviter">Truppgränser</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="btn hotel-book" href="/bokning">Boka rum</a>
+            </li>
+        </ul>
     </div>
-</div>
-
-<input type="checkbox" title="Visa menyn" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Start
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="teams">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Lag
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="matches">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Matcher
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="standings">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Tabell
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="positions">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Positioner
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="squadlimits">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Truppgränser
-            </NavLink>
-        </div>
-    </nav>
-</div>
+</nav>

@@ -42,8 +42,8 @@
     private int season;
     private List<Team> teams = new();
     private List<SquadLimit> limits = new();
-    private Dictionary<int, int> playerCounts = new();
-    private Dictionary<int, string> limitTexts = new();
+    private Dictionary<ObjectId, int> playerCounts = new();
+    private Dictionary<ObjectId, string> limitTexts = new();
 
     private void LoadSeason(int selected)
     {

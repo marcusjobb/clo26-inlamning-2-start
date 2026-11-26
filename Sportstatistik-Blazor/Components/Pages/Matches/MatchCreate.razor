@@ -1,4 +1,6 @@
+
 @page "/matches/create"
+@using MongoDB.Bson
 @inherits PageBase
 @inject ILeagueRepository Repository
 @inject NavigationManager Navigation
@@ -51,7 +53,26 @@
         </div>
     </div>
 
-    @* Du behöver bygga ut detta mer: fält för datum och anteckning när modellen Match har dem. *@
+       
+    <div class="row g-3 mb-3">
+        
+        <div class="col-md-4">
+            
+            <label class="form-label" for="date">Datum</label>
+            
+            <input id="date" type="date" class="form-control" @bind="matchDate" />
+        
+        </div>
+        
+        <div class="col-md-8">
+            
+            <label class="form-label" for="note">Anteckning (valfri)</label>
+            
+            <input id="note" class="form-control" @bind="noteText" />
+        
+        </div>
+    
+    </div>
 
     <button type="submit" class="btn btn-primary">Spara</button>
     <a class="btn btn-link" href="matches">Avbryt</a>
@@ -59,28 +80,35 @@
 
 @code {
     private List<Team> teams = new();
-    private int homeTeamId;
-    private int awayTeamId;
+    private string homeTeamId = "";
+    private string awayTeamId = "";
     private string homeGoalsText = "";
     private string awayGoalsText = "";
+    private DateTime? matchDate = DateTime.Today;
+    private string noteText = "";
     private List<string> validationErrors = new();
 
     protected override void OnInitialized()
     {
         teams = TryGet(Repository.GetAllTeams, new List<Team>());
-        homeTeamId = teams.ElementAtOrDefault(0)?.Id ?? 0;
-        awayTeamId = teams.ElementAtOrDefault(1)?.Id ?? homeTeamId;
+        homeTeamId = teams.ElementAtOrDefault(0)?.Id.ToString() ?? "";
+        awayTeamId = teams.ElementAtOrDefault(1)?.Id.ToString() ?? homeTeamId;
     }
 
     private void Save()
     {
         validationErrors.Clear();
-        var match = new Match { HomeTeamId = homeTeamId, AwayTeamId = awayTeamId };
-
-        if (Repository.GetTeam(homeTeamId) is null || Repository.GetTeam(awayTeamId) is null)
+            if (!ObjectId.TryParse(homeTeamId, out var homeId) ||
+            !ObjectId.TryParse(awayTeamId, out var awayId) ||
+            Repository.GetTeam(homeId) is null ||
+            Repository.GetTeam(awayId) is null)
         {
             validationErrors.Add("Välj både hemmalag och bortalag.");
+            return;
         }
+
+        var match = new Match { HomeTeamId = homeId, AwayTeamId = awayId };
+     
         if (InputParser.TryParseInt(homeGoalsText, 0, 99, out int homeGoals))
         {
             match.HomeGoals = homeGoals;
@@ -97,7 +125,16 @@
         {
             validationErrors.Add($"\"{awayGoalsText}\" är inget giltigt antal mål borta. Skriv ett heltal mellan 0 och 99.");
         }
-
+        if (matchDate is null)
+        {
+            validationErrors.Add("Välj ett datum för matchen.");
+        }
+        else
+        {
+            match.Date = DateTime.SpecifyKind(matchDate.Value, DateTimeKind.Utc);
+        }
+        match.Note = noteText;
+        
         if (validationErrors.Count > 0)
         {
             return;

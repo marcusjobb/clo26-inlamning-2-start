@@ -152,7 +152,43 @@ Gå igenom varje fält i datamodellen. Behåll de fält programmet behöver och 
 
 | Entitet | Fält | Behålls / tas bort | Motivering |
 |---------|------|--------------------|------------|
-| | | | |
+| Match| Id| Behålls| Unik nyckel i MongoDB (_id). Behövs för att kunna ta bort en specifik match.|
+| Match  | HomeTeamId  | Behålls| Kopplar matchen till hemmalaget.|
+| Match | AwayTeamId | Behålls| Kopplar matchen till bortalaget. Gör det möjligt att kontrollera att ett lag inte möter sig självt.|
+| Match | HomeGoals  | Behålls| Krävs för resultat och tabell. |
+| Match  | AwayGoals  | Behålls| Krävs för resultat och tabell.                              |
+| Match| Date      | Behålls| Krav i beställningen. Avgör vilken säsong matchen hör till (önskemål 2). |
+| Match    | Note| Behålls| Valfri anteckning, krav i beställningen|
+| Player| Id    | Behålls| Unik nyckel i MongoDB (_id).                                       |
+| Player| TeamId    | Behålls| Kopplar spelaren till sitt lag. Behövs för att räkna spelare mot truppgränsen.|
+| Player| Position | Behålls| Krav i beställningen ( en spelare har en position). Sparas som positionens namn, flyttas till "Övrigt" om positionen tas bort (önskemål 3).|
+| Player| FirstName  | Behålls| Krav i beställningen (en spelare har ett namn, räcker med förnamn).|
+| Player| LastName| Behålls| Inget krav men skiljer åt spelare med samma förnamn i listor.                                 |
+| Player| BirthDate| Behålls| Inget krav men vanlig spelarinformation i en serie. Inte känslig persondata|
+| Player| WeightKg| Behålls| Inget krav. Ganska vanlig information att ha om spelare.|
+| Player| HeightCm   | Behålls| Inget krav men vanlig spelarinformation. Visas på lagsidan.                                     |
+| Player| HairColor  | Tas bort| Används inte av någon funktion i beställningen. Data som inte behövs ska inte sparas (dataminimering, GDPR).                              |
+| Player| Religion    | Tas bort| Används inte av någon funktion. Dessutom känslig persondata enligt GDPR, som inte får sparas utan tungt vägande skäl.   |
+| Position | Id | Behålls | Unik nyckel i MongoDB (_id). |
+| Position | Name | Behålls | Positionens namn, t.ex. "Målvakt". Användaren kan lägga till egna (funktion 3). |
+| Position | IsProtected | Behålls | Markerar att "Övrigt" aldrig får tas bort (önskemål 3). Regeln kontrolleras i PositionService. |
+| SquadLimit | Id | Behålls | Unik nyckel i MongoDB (_id). Utan den kan drivern inte läsa tillbaka dokumentet. |
+| SquadLimit | TeamId | Behålls | Vilket lag gränsen gäller (truppgräns per lag, funktion 5). |
+| SquadLimit | Season | Behålls | Vilken säsong gränsen gäller (truppgräns per lag och säsong, funktion 5). |
+| SquadLimit | MaxPlayers | Behålls | Största antal spelare. Används för varningen vid 80 % och 100 % (funktion 6). |
+| StandingRow | TeamId | Behålls | Kopplar tabellraden till laget. StandingRow räknas fram från matcherna och sparas inte i databasen. |
+| StandingRow | TeamName | Behålls | Visas i tabellen och är sista sorteringsnyckeln (funktion 7). |
+| StandingRow | Played | Behålls | Krav i funktion 4 (spelade matcher). |
+| StandingRow | Won | Behålls | Krav i funktion 4 (vinster, ger 3 poäng). |
+| StandingRow | Drawn | Behålls | Krav i funktion 4 (oavgjorda, ger 1 poäng). |
+| StandingRow | Lost | Behålls | Krav i funktion 4 (förluster, ger 0 poäng). |
+| StandingRow | GoalsFor | Behålls | Krav i funktion 4 (gjorda mål). Tredje sorteringsnyckeln (funktion 7). |
+| StandingRow | GoalsAgainst | Behålls | Krav i funktion 4 (insläppta mål). |
+| StandingRow | GoalDifference | Behålls | Krav i funktion 4. Andra sorteringsnyckeln (funktion 7), visas med tecken (önskemål 1). |
+| StandingRow | Points | Behålls | Krav i funktion 4. Första sorteringsnyckeln (funktion 7). |
+| Team | Id | Behålls | Unik nyckel i MongoDB (_id). Spelare, matcher och truppgränser pekar på laget via detta id. |
+| Team | Name | Behålls | Krav i beställningen (ett lag har ett namn). Visas i listor, matcher och tabellen. |
+
 
 ## Designmönster
 

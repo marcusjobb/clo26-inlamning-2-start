@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+
 namespace Sportstatistik.Models;
 
 /// <summary>
@@ -6,7 +8,7 @@ namespace Sportstatistik.Models;
 /// </summary>
 public class StandingRow
 {
-    public int TeamId { get; set; }
+    public ObjectId TeamId { get; set; }
     public string TeamName { get; set; } = "";
     public int Played { get; set; }
     public int Won { get; set; }

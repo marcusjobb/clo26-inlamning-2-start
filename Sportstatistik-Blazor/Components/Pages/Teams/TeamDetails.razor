@@ -1,4 +1,5 @@
-@page "/teams/{Id:int}"
+@page "/teams/{Id}"
+@using MongoDB.Bson
 @inherits PageBase
 @inject ILeagueRepository Repository
 @inject IPositionService PositionService
@@ -66,16 +67,8 @@ else
         <input id="birthDate" type="date" class="form-control" @bind="newPlayer.BirthDate" />
     </div>
     <div class="mb-3">
-        <label class="form-label" for="hairColor">Hårfärg</label>
-        <input id="hairColor" class="form-control" @bind="newPlayer.HairColor" />
-    </div>
-    <div class="mb-3">
         <label class="form-label" for="height">Längd i cm</label>
         <input id="height" class="form-control" @bind="heightText" />
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="religion">Religion</label>
-        <input id="religion" class="form-control" @bind="newPlayer.Religion" />
     </div>
 
     <button type="submit" class="btn btn-primary">Spara</button>
@@ -83,8 +76,9 @@ else
 </form>
 
 @code {
-    [Parameter] public int Id { get; set; }
+    [Parameter] public string Id { get; set; } = "";
 
+    private ObjectId teamId;
     private Team? team;
     private List<Player> players = new();
     private List<Position> positions = new();
@@ -93,7 +87,9 @@ else
 
     protected override void OnParametersSet()
     {
-        team = TryGet(() => Repository.GetTeam(Id), null);
+        team = ObjectId.TryParse(Id, out teamId)
+            ? TryGet(() => Repository.GetTeam(teamId), null)
+            : null;
         if (team is null)
         {
             return;
@@ -104,11 +100,11 @@ else
         ResetForm();
     }
 
-    private void LoadPlayers() => players = TryGet(() => Repository.GetPlayers(Id), new List<Player>());
+    private void LoadPlayers() => players = TryGet(() => Repository.GetPlayers(teamId), new List<Player>());
 
     private void ResetForm()
     {
-        newPlayer = new Player { TeamId = Id, Position = positions.FirstOrDefault()?.Name ?? "" };
+        newPlayer = new Player { TeamId = teamId, Position = positions.FirstOrDefault()?.Name ?? "" };
         heightText = "";
     }
 
@@ -147,7 +143,7 @@ else
         // Funktion 6: varning vid 80 % och 100 % av truppgränsen. Säsongen är innevarande år.
         // Spelaren är redan sparad, så meddelandet om att den är tillagd ska synas även om
         // varningen inte är byggd än.
-        List<string> warnings = TryGet(() => SquadLimits.CheckSquadLimit(Id, DateTime.Today.Year), new List<string>());
+        List<string> warnings = TryGet(() => SquadLimits.CheckSquadLimit(teamId, DateTime.Today.Year), new List<string>());
         SuccessMessage = $"{added.FirstName} är tillagd i {team!.Name}.";
         WarningMessage = warnings.Count > 0 ? string.Join(" ", warnings) : null;
     }

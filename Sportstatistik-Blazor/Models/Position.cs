@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+
 namespace Sportstatistik.Models;
 
 /// <summary>
@@ -5,10 +7,10 @@ namespace Sportstatistik.Models;
 /// </summary>
 public class Position
 {
-    public int Id { get; set; }
+    public ObjectId Id { get; set; }
     public string Name { get; set; } = "";
+    public bool IsProtected { get; set; }
 
     // Du behöver bygga ut detta mer.
-    // Beställningen kräver att användaren kan lägga till egna positioner,
-    // och att "Övrigt" aldrig kan tas bort (önskemål 3).
+    // Beställningen kräver att användaren kan lägga till egna positioner.
 }

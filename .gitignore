@@ -3,6 +3,7 @@ bin/
 obj/
 *.user
 .vs/
+.idea/
 
 # Hemligheter: connectionstrings och lösenord ska INTE in i koden
 .env
@@ -16,3 +17,5 @@ Thumbs.db
 *.db
 *.sqlite
 *.sqlite3
+
+atlas-credentials.env

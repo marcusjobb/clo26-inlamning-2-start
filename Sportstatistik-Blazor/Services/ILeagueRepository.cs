@@ -1,5 +1,5 @@
 using Sportstatistik.Models;
-
+using MongoDB.Bson;
 namespace Sportstatistik.Services;
 
 /// <summary>
@@ -8,17 +8,17 @@ namespace Sportstatistik.Services;
 /// </summary>
 public interface ILeagueRepository
 {
-    List<Team> GetAllTeams();
-    Team? GetTeam(int id);
-    void AddTeam(Team team);
+List<Team> GetAllTeams();
+Team? GetTeam(ObjectId id);
+void AddTeam(Team team);
 
-    List<Player> GetPlayers(int teamId);
+    List<Player> GetPlayers(ObjectId teamId);
     void AddPlayer(Player player);
 
     List<Match> GetAllMatches();
-    Match? GetMatch(int id);
+    Match? GetMatch(ObjectId id);
     void AddMatch(Match match);
-    void DeleteMatch(int id);
+    void DeleteMatch(ObjectId id);
 
     // Du behöver bygga ut detta mer: metoder för positioner och truppgränser när ni sparar dem i databasen.
 }
