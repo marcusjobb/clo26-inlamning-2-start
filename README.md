@@ -153,12 +153,40 @@ Gå igenom varje fält i datamodellen. Behåll de fält programmet behöver och 
 | Entitet | Fält | Behålls / tas bort | Motivering |
 |---------|------|--------------------|------------|
 | Match| Id| Behålls| Unik nyckel i MongoDB (_id)|
-| Match  | HomeTeamId  | Behålls       | Kopplar matchen till hemmalaget.|
-| Match | AwayTeamId | Behålls       | Kopplar matchen till bortalaget.                 |
-| Match | HomeGoals  | Behålls       | Krävs för resultat och tabell.                                |
-| Match  | AwayGoals  | Behålls       | Krävs för resultat och tabell.                              |
-| Match| Date      | Behålls              | Krav i beställningen. Avgör vilken säsong matchen hör till (önskemål 2). |
-| Match    | Note| Behålls        | Valfri anteckning, krav i beställningen|
+| Match  | HomeTeamId  | Behålls| Kopplar matchen till hemmalaget.|
+| Match | AwayTeamId | Behålls| Kopplar matchen till bortalaget.                 |
+| Match | HomeGoals  | Behålls| Krävs för resultat och tabell.                                |
+| Match  | AwayGoals  | Behålls| Krävs för resultat och tabell.                              |
+| Match| Date      | Behålls| Krav i beställningen. Avgör vilken säsong matchen hör till (önskemål 2). |
+| Match    | Note| Behålls| Valfri anteckning, krav i beställningen|
+| Player| Id    | Behålls|                                        |
+| Player| TeamId    | Behålls|                                        |
+| Player| Position | Behålls|                                        |
+| Player| FirstName  | Behålls|                                        |
+| Player| LastName| Behålls|                                        |
+| Player| BirthDate| Behålls|                                        |
+| Player| WeightKg| Behålls|                                        |
+| Player| HeightCm   | Behålls|                                        |
+| Player| HairColor  | Tas bort|                                        |
+| Player| Religion    | Tas bort|                                        |
+| Position| Id| Behålls|
+| Position| Name| Behålls|                                        |
+| Position| IsProtected| Behålls|
+| SquadLimit| Id    | Behålls           |                                        |
+| SquadLimit| TeamId    | Behålls|                                        |
+| SquadLimit| Season| Behålls|                                        |
+| Squadlimit| MaxPlayers| Behålls|                                        |
+| StandingRow| TeamId    |                |                                        |
+| StandingRow| TeamName    |                |                                        |
+| StandingRow| Played |                |                                        |
+| StandingRow| Won|                |                                        |
+| StandingRow| Drawn    |                |                                        |
+| StandingRow| Lost|                |                                        |
+| StandingRow| GoalsFor|                |                                        |
+| StandingRow| GoalsAgainst|                |                                        |
+| StandingRow| GoalDifference|                |                                        |
+| StandingRow| Points|                |                                        |
+|          |     |                |                                        |
 
 
 ## Designmönster
