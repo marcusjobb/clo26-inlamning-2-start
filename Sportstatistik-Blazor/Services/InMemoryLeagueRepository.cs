@@ -99,11 +99,11 @@ public class InMemoryLeagueRepository : ILeagueRepository
         AddPlayer(new Player { TeamId = lagret.Id, FirstName = "Tove", LastName = "Testsson", Position = "Forward" });
         AddPlayer(new Player { TeamId = lagret.Id, FirstName = "Vide", LastName = "Demosson", Position = "Målvakt" });
 
-        AddMatch(new Match { HomeTeamId = ummis.Id, AwayTeamId = bryggeriet.Id, HomeGoals = 2, AwayGoals = 1 });
-        AddMatch(new Match { HomeTeamId = kontoret.Id, AwayTeamId = lagret.Id, HomeGoals = 0, AwayGoals = 0 });
-        AddMatch(new Match { HomeTeamId = bryggeriet.Id, AwayTeamId = kontoret.Id, HomeGoals = 3, AwayGoals = 1 });
-        AddMatch(new Match { HomeTeamId = lagret.Id, AwayTeamId = ummis.Id, HomeGoals = 1, AwayGoals = 2 });
-        AddMatch(new Match { HomeTeamId = ummis.Id, AwayTeamId = kontoret.Id, HomeGoals = 1, AwayGoals = 1 });
-        AddMatch(new Match { HomeTeamId = lagret.Id, AwayTeamId = bryggeriet.Id, HomeGoals = 2, AwayGoals = 2 });
+        AddMatch(new Match { HomeTeamId = ummis.Id, AwayTeamId = bryggeriet.Id, HomeGoals = 2, AwayGoals = 1, Date = new DateTime(2026, 11, 26) });
+        AddMatch(new Match { HomeTeamId = kontoret.Id, AwayTeamId = lagret.Id, HomeGoals = 0, AwayGoals = 0, Date = new DateTime(2026, 11, 26) });
+        AddMatch(new Match { HomeTeamId = bryggeriet.Id, AwayTeamId = kontoret.Id, HomeGoals = 3, AwayGoals = 1, Date = new DateTime(2026, 11, 26) });
+        AddMatch(new Match { HomeTeamId = lagret.Id, AwayTeamId = ummis.Id, HomeGoals = 1, AwayGoals = 2,  Date = new DateTime(2026, 11, 26) });
+        AddMatch(new Match { HomeTeamId = ummis.Id, AwayTeamId = kontoret.Id, HomeGoals = 1, AwayGoals = 1,  Date = new DateTime(2026, 11, 26) });
+        AddMatch(new Match { HomeTeamId = lagret.Id, AwayTeamId = bryggeriet.Id, HomeGoals = 2, AwayGoals = 2, Date = new DateTime(2026, 11, 26) });
     }
 }
