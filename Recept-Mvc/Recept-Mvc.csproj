@@ -8,4 +8,8 @@
     <UserSecretsId>66eb36ef-4558-42b1-aa0a-b9f6b813b088</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="3.14.1" />
+  </ItemGroup>
+
 </Project>
