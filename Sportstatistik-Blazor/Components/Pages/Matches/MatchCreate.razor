@@ -53,7 +53,26 @@
         </div>
     </div>
 
-    @* Du behöver bygga ut detta mer: fält för datum och anteckning när modellen Match har dem. *@
+       
+    <div class="row g-3 mb-3">
+        
+        <div class="col-md-4">
+            
+            <label class="form-label" for="date">Datum</label>
+            
+            <input id="date" type="date" class="form-control" @bind="matchDate" />
+        
+        </div>
+        
+        <div class="col-md-8">
+            
+            <label class="form-label" for="note">Anteckning (valfri)</label>
+            
+            <input id="note" class="form-control" @bind="noteText" />
+        
+        </div>
+    
+    </div>
 
     <button type="submit" class="btn btn-primary">Spara</button>
     <a class="btn btn-link" href="matches">Avbryt</a>
@@ -65,6 +84,8 @@
     private string awayTeamId = "";
     private string homeGoalsText = "";
     private string awayGoalsText = "";
+    private DateTime? matchDate = DateTime.Today;
+    private string noteText = "";
     private List<string> validationErrors = new();
 
     protected override void OnInitialized()
@@ -104,7 +125,16 @@
         {
             validationErrors.Add($"\"{awayGoalsText}\" är inget giltigt antal mål borta. Skriv ett heltal mellan 0 och 99.");
         }
-
+        if (matchDate is null)
+        {
+            validationErrors.Add("Välj ett datum för matchen.");
+        }
+        else
+        {
+            match.Date = DateTime.SpecifyKind(matchDate.Value, DateTimeKind.Utc);
+        }
+        match.Note = noteText;
+        
         if (validationErrors.Count > 0)
         {
             return;
