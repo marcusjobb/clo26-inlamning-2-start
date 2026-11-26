@@ -1,14 +1,3 @@
 <Solution>
-  <Project Path="Hushallsbudget-Konsol/Hushallsbudget-Konsol.csproj" />
-  <Project Path="Hushallsbudget-Mvc/Hushallsbudget-Mvc.csproj" />
-  <Project Path="Hushallsbudget-Blazor/Hushallsbudget-Blazor.csproj" />
-  <Project Path="Traningsbok-Konsol/Traningsbok-Konsol.csproj" />
-  <Project Path="Traningsbok-Mvc/Traningsbok-Mvc.csproj" />
-  <Project Path="Traningsbok-Blazor/Traningsbok-Blazor.csproj" />
-  <Project Path="Sportstatistik-Konsol/Sportstatistik-Konsol.csproj" />
-  <Project Path="Sportstatistik-Mvc/Sportstatistik-Mvc.csproj" />
-  <Project Path="Sportstatistik-Blazor/Sportstatistik-Blazor.csproj" />
-  <Project Path="Recept-Konsol/Recept-Konsol.csproj" />
   <Project Path="Recept-Mvc/Recept-Mvc.csproj" />
-  <Project Path="Recept-Blazor/Recept-Blazor.csproj" />
 </Solution>
